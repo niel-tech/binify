@@ -21,10 +21,8 @@ const checkbox = cva(
     "duration-200",
   ],
   {
-    variants: {
-    },
-    defaultVariants: {
-    },
+    variants: {},
+    defaultVariants: {},
   } as any
 )
 
