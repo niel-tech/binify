@@ -1,8 +1,6 @@
-"use client"
-
 import { ReactNode } from "react"
 import { Metadata } from "next"
-import { motion } from "framer-motion"
+import Section from "./section"
 
 export const metadata: Metadata = {
   themeColor: "white",
@@ -15,13 +13,8 @@ export const metadata: Metadata = {
 
 export default function BinLayout({ children }: { children: ReactNode }) {
   return (
-    <motion.main
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ delay: 0.2 }}
-      className="mx-auto grid w-full max-w-lg px-4 text-center"
-    >
-      <section>{children}</section>
-    </motion.main>
+    <main>
+      <Section>{children}</Section>
+    </main>
   )
 }
