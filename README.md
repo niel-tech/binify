@@ -3,6 +3,7 @@
 Let's create non-persistent text snippets (bin) and send it securely to your friends or clients
 
 ## Features
+
 - Fully encrypted text snippet within database (AES encrypted)
 - Entered passwords are hashed stored within database
 - Bin's will be auto deleted from database after passing period of time
@@ -11,3 +12,4 @@ Let's create non-persistent text snippets (bin) and send it securely to your fri
 
 ## Visit
 
+[https://binify.netlify.app/](https://binify.netlify.app/)
