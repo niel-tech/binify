@@ -3,7 +3,7 @@
 import { FormEvent } from "react"
 import { Button } from "../../components/Button/Button"
 import { Input } from "../../components/Input/Input"
-import { encryptText, generateHashedId, generateHashedPassword } from "../../lib/crypto"
+import { encryptText, generateHashedString } from "../../lib/crypto"
 import { Bin } from "../../models/bin.model"
 import InputLabel from "../../components/InputLabel/InputLabel"
 import Textarea from "../../components/Textarea/Textarea"
@@ -11,7 +11,7 @@ import { useBin, useBinActions } from "../../store/bin.store"
 import { InputCopy } from "../../components/InputCopy/InputCopy"
 import { Select } from "../../components/Select/Select"
 import { ValidUntil } from "../../components/ValidUntil/ValidUntil"
-import {Checkbox} from "../../components/Checkbox/Checkbox";
+import { Checkbox } from "../../components/Checkbox/Checkbox"
 
 type CreateBinProps = {
   bin?: Bin
@@ -37,10 +37,10 @@ export default function CreateBin({}: CreateBinProps) {
     const response = await fetch(`/api/bin/create`, {
       method: "POST",
       body: JSON.stringify({
-        hashed_id: generateHashedId(),
+        hashed_id: generateHashedString().substr(0, 5),
         text: encryptText(text.value),
-        hashed_password: !password.value ? null : generateHashedPassword(password.value),
-        hashed_password_repeat: !password.value ? null : generateHashedPassword(passwordConfirm.value),
+        hashed_password: !password.value ? null : generateHashedString(password.value),
+        hashed_password_repeat: !passwordConfirm.value ? null : generateHashedString(passwordConfirm.value),
         readOnce: !!readOnce.checked,
         offset,
         unit,
@@ -80,7 +80,7 @@ export default function CreateBin({}: CreateBinProps) {
           </Select>
         </InputLabel>
         <label htmlFor="readOnce">
-          <Checkbox id="readOnce" name="readOnce" className="px-3 mx-3" />
+          <Checkbox id="readOnce" name="readOnce" className="mx-3 px-3" />
           Destroy after reading
         </label>
         <div className="my-6">
@@ -94,9 +94,11 @@ export default function CreateBin({}: CreateBinProps) {
   return (
     <>
       <InputCopy value={`${window!.location.origin}/${cachedBin.hashed_id}`} readonly={true} />
-      {
-        cachedBin.readOnce && <p className="text-left font-bold">Attention: <span className="text-amber-700">this bin will self destory after reading once!</span></p>
-      }
+      {cachedBin.readOnce && (
+        <p className="text-left font-bold">
+          Attention: <span className="text-amber-700">this bin will self destory after reading once!</span>
+        </p>
+      )}
       <ValidUntil validUntil={cachedBin.lifetime} />
       <div className="my-6 flex">
         <Button size="sm" className="justify-start" onClick={handleOnClick}>
