@@ -1,10 +1,10 @@
 "use client"
 
-import {FormEvent, useState} from "react"
+import { FormEvent } from "react"
 import { Bin } from "../../../models/bin.model"
 import { Input } from "../../../components/Input/Input"
 import { Button } from "../../../components/Button/Button"
-import { decryptText, generateHashedPassword } from "../../../lib/crypto"
+import { decryptText, generateHashedString } from "../../../lib/crypto"
 import { useBin, useBinActions } from "../../../store/bin.store"
 import Textarea from "../../../components/Textarea/Textarea"
 import InputLabel from "../../../components/InputLabel/InputLabel"
@@ -25,7 +25,7 @@ export default function ReadBin({ bin }: ReadBinProps) {
 
     if (password.value === "") return
 
-    const response = await fetch(`/api/bin/${bin.hashed_id}?p=${generateHashedPassword(password.value)}`)
+    const response = await fetch(`/api/bin/${bin.hashed_id}?p=${generateHashedString(password.value)}`)
 
     const data = (await response.json()) as Bin
 
@@ -59,14 +59,14 @@ export default function ReadBin({ bin }: ReadBinProps) {
             readOnly={true}
           ></Textarea>
         </InputLabel>
-        {
-          !(cachedBin?.readOnce || bin.readOnce) && <ValidUntil validUntil={cachedBin?.lifetime || bin.lifetime} />
-        }
-        {
-          (cachedBin?.readOnce || bin.readOnce) && <div>
-          <p className="text-left font-bold">Attention: <span className="text-amber-700">at the time of reading the message is destroyed!</span></p>
+        {!(cachedBin?.readOnce || bin.readOnce) && <ValidUntil validUntil={cachedBin?.lifetime || bin.lifetime} />}
+        {(cachedBin?.readOnce || bin.readOnce) && (
+          <div>
+            <p className="text-left font-bold">
+              Attention: <span className="text-amber-700">at the time of reading the message is destroyed!</span>
+            </p>
           </div>
-        }
+        )}
       </>
     )
   }
