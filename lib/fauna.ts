@@ -81,7 +81,6 @@ export const createNewBin = (
       }
     }
   `
-  console.log(query)
 
   return graphQLClient.request(query).then(({ createNewBin }: any) => createNewBin)
 }
