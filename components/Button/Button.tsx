@@ -2,6 +2,13 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { twMerge } from "tailwind-merge"
 
+const classNames = (...classes: string[]) => {
+  return classes
+    .filter(Boolean)
+    .map((i) => (Array.isArray(i) ? i.join(" ") : i))
+    .join(" ")
+}
+
 const button = cva(
   [
     "justify-center",
@@ -13,12 +20,16 @@ const button = cva(
     "border-blue-400",
     "transition-colors",
     "delay-50",
+    "cursor-pointer",
   ],
   {
     variants: {
       intent: {
-        primary: ["bg-blue-400", "text-white", "hover:enabled:bg-blue-700"],
+        primary: classNames("bg-blue-400", "text-white", "hover:enabled:bg-blue-700"),
         secondary: ["bg-transparent", "text-blue-400", "hover:enabled:bg-blue-400", "hover:enabled:text-white"],
+      },
+      disabled: {
+        true: ["border-gray-400", "text-gray-400", "cursor-not-allowed"],
       },
       size: {
         sm: ["min-w-20", "h-full", "min-h-10", "text-sm", "py-1.5", "px-4"],
@@ -35,13 +46,18 @@ const button = cva(
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLAnchorElement>, VariantProps<typeof button> {
   underline?: boolean
-  href: string
+  disabled?: boolean
+  href?: string
 }
 
-export function Button({ className, intent, size, underline, ...props }: ButtonProps) {
+export function Button({ className, intent, size, underline, disabled, ...props }: ButtonProps | any) {
   return (
-    <a className={twMerge(button({ intent, size, className, underline }))} {...props}>
+    <button
+      className={twMerge(button({ intent, size, className, underline, disabled }))}
+      disabled={disabled}
+      {...props}
+    >
       {props.children}
-    </a>
+    </button>
   )
 }

@@ -1,0 +1,27 @@
+type Query {
+  bin: Bin
+  getBin(hashed_id: String!): NullableBin! @resolver(name: "getBin")
+  readBin(hashed_id: String!, hashed_pw: String!): NullableBin! @resolver(name: "readBin")
+}
+
+type Mutation {
+  createNewBin(hashed_id: String!, text: String!, hashed_password: String, readOnce: Boolean!, offset: Int!, unit: String!): Bin!
+    @resolver(name: "createBin")
+}
+
+type Bin {
+  hashed_id: String! @unique
+  text: String!
+  lifetime: String!
+  readOnce: Boolean!
+  hashed_password: String
+  isProtected: Boolean
+}
+
+type NullableBin @embedded {
+  hashed_id: String
+  text: String
+  lifetime: String
+  readOnce: Boolean
+  isProtected: Boolean
+}

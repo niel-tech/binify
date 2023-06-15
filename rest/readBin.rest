@@ -1,0 +1,1 @@
+GET http://localhost:3000/api/bin/99242?p=d0be733429432f7f00d425e1ab003412afa75d41fe280d8bb2eb3e82fefc56b6

@@ -7,9 +7,15 @@ export const env = createEnv({
       .enum(["true", "false"])
       .optional()
       .transform((value) => value === "true"),
+    NEXT_PUBLIC_SECURE_KEY: z.string(),
+    FAUNA_USER_KEY: z.string()
   },
-  client: {},
+  client: {
+    NEXT_PUBLIC_SECURE_KEY: z.string(),
+  },
   runtimeEnv: {
     ANALYZE: process.env.ANALYZE,
+    NEXT_PUBLIC_SECURE_KEY: process.env.NEXT_PUBLIC_SECURE_KEY,
+    FAUNA_USER_KEY: process.env.FAUNA_USER_KEY
   },
 })
