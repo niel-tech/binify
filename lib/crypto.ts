@@ -7,7 +7,7 @@ export function generateHashedString(string: string): string {
 
 export function encryptText(text: string, key: string = process.env.NEXT_PUBLIC_SECURE_KEY as string) {
   const aes = CryptoJS.AES.encrypt(text, key)
-  return aes.toString()
+  return aes.toString(CryptoJS.enc.Hex)
 }
 
 export function decryptText(text: string, key: string = process.env.NEXT_PUBLIC_SECURE_KEY as string) {

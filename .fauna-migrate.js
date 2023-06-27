@@ -4,7 +4,7 @@ module.exports = {
     resources: "resources",
     migrations: "migrations",
     children: "dbs",
-    temp: "temp"
+    temp: "temp",
   },
   collection: "migrations",
 }
