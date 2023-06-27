@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 import withBundleAnalyzer from "@next/bundle-analyzer"
 import withPlugins from "next-compose-plugins"
 import { env } from "./env.mjs"

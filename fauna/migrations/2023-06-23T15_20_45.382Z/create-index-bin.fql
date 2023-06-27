@@ -1,0 +1,6 @@
+CreateIndex({
+  "name": "bin",
+  "unique": false,
+  "serialized": true,
+  "source": Collection("Bin")
+})

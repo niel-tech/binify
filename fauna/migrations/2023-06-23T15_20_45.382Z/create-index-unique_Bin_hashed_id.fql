@@ -1,0 +1,9 @@
+CreateIndex({
+  "name": "unique_Bin_hashed_id",
+  "unique": true,
+  "serialized": true,
+  "source": Collection("Bin"),
+  "terms": [{
+    "field": ["data", "hashed_id"]
+  }]
+})

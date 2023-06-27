@@ -1,6 +1,26 @@
-{
+import faunadb from "faunadb"
+
+const q = faunadb.query
+const {
+  CreateFunction,
+  Query,
+  Var,
+  Lambda,
+  Role,
+  Create,
+  TimeAdd,
+  Collection,
+  Now,
+  ToString,
+  If,
+  Or,
+  Equals,
+  Not,
+  Let,
+} = q
+
+const CreateFunctionCreateBin = CreateFunction({
   name: "createBin",
-  role: Role("user"),
   body: Query(
     Lambda(
       ["hashed_id", "text", "hashed_password", "readOnce", "offset", "unit"],
@@ -14,22 +34,17 @@
             lifetime: ToString(Var("calcLifeTime")),
             readOnce: Var("readOnce"),
             hashed_password: If(
-              Or(
-                Equals(Var("hashed_password"), "null"),
-                Equals(Var("hashed_password"), "undefined")
-              ),
+              Or(Equals(Var("hashed_password"), "null"), Equals(Var("hashed_password"), "undefined")),
               null,
               Var("hashed_password")
             ),
-            isProtected: Not(
-              Or(
-                Equals(Var("hashed_password"), "null"),
-                Equals(Var("hashed_password"), "undefined")
-              )
-            )
-          }
+            isProtected: Not(Or(Equals(Var("hashed_password"), "null"), Equals(Var("hashed_password"), "undefined"))),
+          },
         })
       )
     )
-  )
-}
+  ),
+  role: Role("user"),
+})
+
+export default CreateFunctionCreateBin

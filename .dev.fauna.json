@@ -1,0 +1,5 @@
+{
+  "schemaPath": "fauna/schema.graphql",
+  "region": "eu",
+  "secretEnv": "DEV_FGU_SECRET"
+}

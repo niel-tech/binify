@@ -1,0 +1,4 @@
+{
+  "schemaPath": "fauna/schema.graphql",
+  "region": "eu"
+}

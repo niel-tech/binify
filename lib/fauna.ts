@@ -1,9 +1,15 @@
 import { gql, GraphQLClient } from "graphql-request"
 import { Bin } from "../models/bin.model"
 
-const graphQLClient = new GraphQLClient("https://graphql.eu.fauna.com/graphql", {
+const userClient = new GraphQLClient("https://graphql.eu.fauna.com/graphql", {
   headers: {
     authorization: `Bearer ${process.env.FAUNA_USER_KEY}`,
+  },
+})
+
+const localhostClient =  new GraphQLClient("http://127.0.0.1:8443", {
+  headers: {
+    authorization: `Bearer ${process.env.FAUNA_USER_KEY_LOCALHOST}`,
   },
 })
 
@@ -19,7 +25,9 @@ export const getBin = (hashed_id: string): Promise<Bin> => {
     }
   }`
 
-  return graphQLClient.request(query).then(({ getBin }: any) => getBin)
+  return ((process.env.NODE_ENV === "development") ?
+    localhostClient :
+    userClient).request(query).then(({ getBin }: any) => getBin)
 }
 
 export const readBin = (hashed_id: string, hashed_pw?: string): Promise<Bin> => {
@@ -36,7 +44,9 @@ export const readBin = (hashed_id: string, hashed_pw?: string): Promise<Bin> => 
     }
   }`
 
-  return graphQLClient.request(query).then(({ readBin }: any) => readBin)
+  return ((process.env.NODE_ENV === "development") ?
+    localhostClient :
+    userClient).request(query).then(({ readBin }: any) => readBin)
 }
 
 export const createNewBin = (
@@ -82,5 +92,7 @@ export const createNewBin = (
     }
   `
 
-  return graphQLClient.request(query).then(({ createNewBin }: any) => createNewBin)
+  return ((process.env.NODE_ENV === "development") ?
+    localhostClient :
+    userClient).request(query).then(({ createNewBin }: any) => createNewBin)
 }
