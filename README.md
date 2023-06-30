@@ -4,6 +4,7 @@ Let's create non-persistent text snippets (bin) and send it securely to your fri
 
 ## Features
 
+- Login functionality to store created Bin's
 - Fully encrypted text snippet within database (AES encrypted)
 - Entered passwords are hashed stored within database
 - Bin's will be auto deleted from database after passing period of time
@@ -12,4 +13,4 @@ Let's create non-persistent text snippets (bin) and send it securely to your fri
 
 ## Visit
 
-[https://binify.vercel.app](https://binify.vercel.app)
+[https://binify.io](https://binify.io)
