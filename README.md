@@ -12,4 +12,4 @@ Let's create non-persistent text snippets (bin) and send it securely to your fri
 
 ## Visit
 
-[https://binify.netlify.app/](https://binify.netlify.app/)
+[https://binify.vercel.app](https://binify.vercel.app)
