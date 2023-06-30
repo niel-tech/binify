@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation"
-import { getBin, readBin } from "../../../lib/fauna"
 import ReadBin from "./readBin"
+import { getBin, readBin } from "../../../lib/fauna"
 
 export default async function BinPage({ params, searchParams }: any) {
   try {

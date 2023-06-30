@@ -1,0 +1,5 @@
+CreateCollection({
+  "name": "sessions",
+  "history_days": 0,
+  "ttl_days": null
+})

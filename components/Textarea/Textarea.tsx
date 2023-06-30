@@ -1,7 +1,7 @@
+import { cva, VariantProps } from "class-variance-authority"
+import { ClassProp } from "class-variance-authority/dist/types"
 import { InputHTMLAttributes, TextareaHTMLAttributes, useState } from "react"
 import { twMerge } from "tailwind-merge"
-import { ClassProp } from "class-variance-authority/dist/types"
-import { cva, VariantProps } from "class-variance-authority"
 import { classNames } from "../../utils/classNames"
 
 const textarea = cva(
@@ -25,9 +25,12 @@ const textarea = cva(
   {
     variants: {
       size: {
-        sm: ["text-sm", "h-8"],
-        lg: ["text-lg", "h-10"],
+        sm: ["text-sm"],
+        lg: ["text-lg"],
       },
+    },
+    defaultVariants: {
+      size: "sm",
     },
   } as any
 )

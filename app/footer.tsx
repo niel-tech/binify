@@ -13,12 +13,12 @@ export default function Footer() {
       <div className="m-auto grid max-w-lg grid-cols-2 items-center px-4 transition-all">
         <div className="justify-start">
           {new Date().getFullYear()} -{" "}
-          <a href="https://github.com/nielll" target="_blank" className="font-bold text-blue-600">
+          <a href="https://github.com/nielll" target="_blank" className="font-bold text-blue-600" rel="noreferrer">
             nielll
           </a>
         </div>
         <div className="grid grid-flow-row justify-end">
-          <a href="https://github.com/niel-tech/binify" target="_blank">
+          <a href="https://github.com/niel-tech/binify" target="_blank" rel="noreferrer">
             <svg
               className="h-10 w-10 cursor-pointer rounded-3xl bg-gray-200 p-2 text-gray-600 hover:bg-gray-300 hover:text-gray-700"
               width="15"

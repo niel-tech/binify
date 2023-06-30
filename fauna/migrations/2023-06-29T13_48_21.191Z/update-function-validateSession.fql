@@ -1,0 +1,11 @@
+Update(Function("validateSession"), {
+  "role": Role("user"),
+  "body": Query(Lambda(["session_token"], Let([{
+    "getSessionToken": If(Exists(Match(Index("session_by_session_token"), Var("session_token"))), Get(Match(Index("session_by_session_token"), Var("session_token"))), null)
+  }, {
+    "isValid": And(Not(IsNull(Var("getSessionToken"))), LT(Now(), Select(["data", "expires"], Var("getSessionToken"))))
+  }], {
+    "userId": If(Var("isValid"), Select(["data", "userId"], Var("getSessionToken")), null)
+  }))),
+  "data": null
+})

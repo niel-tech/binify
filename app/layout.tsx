@@ -1,11 +1,13 @@
-import { ReactNode } from "react"
 import type { Metadata } from "next"
+import { getServerSession } from "next-auth/next"
+import { ReactNode } from "react"
 import { quicksand } from "@/fonts"
+import { authOptions } from "@/lib/auth"
 
 // These styles apply to every route in the application
 import "styles/tailwind.css"
-import Nav from "./nav"
 import Footer from "./footer"
+import Nav from "./nav"
 
 export const metadata: Metadata = {
   themeColor: "white",
@@ -16,11 +18,13 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const session = await getServerSession(authOptions)
+
   return (
     <html className={quicksand.className} lang="en">
       <body className="grid h-screen grid-rows-[auto_1fr_auto] bg-[#E6E4DA] dark:bg-white">
-        <Nav />
+        <Nav session={session} />
         {children}
         <Footer />
       </body>

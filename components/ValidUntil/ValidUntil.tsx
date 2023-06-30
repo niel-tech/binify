@@ -1,7 +1,9 @@
+"use client"
+
 import { cva, type VariantProps } from "class-variance-authority"
-import { twMerge } from "tailwind-merge"
-import { InputHTMLAttributes, useEffect, useState } from "react"
 import { ClassProp } from "class-variance-authority/dist/types"
+import { InputHTMLAttributes, useEffect, useState } from "react"
+import { twMerge } from "tailwind-merge"
 
 const paragraph = cva(["my-2"], {
   variants: {
@@ -41,8 +43,8 @@ export function ValidUntil({ className, validUntil, ...props }: ValidUntilProps)
   }
 
   return (
-    <div className={twMerge(paragraph({ className } as ClassProp), "flex flex-row")} {...props}>
-      <p className="justify-start">Destroys in:</p>
+    <div className={twMerge(paragraph({ className } as ClassProp), "flex flex-row items-center")} {...props}>
+      <p className="justify-start">lifetime:</p>
       <p className="flex-1 text-end">
         {[
           days >= 1 && `${days} ${days > 1 ? "days" : "day"}`,
@@ -53,6 +55,7 @@ export function ValidUntil({ className, validUntil, ...props }: ValidUntilProps)
           .filter(Boolean)
           .join(" ")}
       </p>
+      {validUntil === "forever" && <p>forever</p>}
     </div>
   )
 }

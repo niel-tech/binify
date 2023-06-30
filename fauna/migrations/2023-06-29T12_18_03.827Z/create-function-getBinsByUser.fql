@@ -1,0 +1,14 @@
+CreateFunction({
+  "name": "getBinsByUser",
+  "role": Role("user"),
+  "body": Query(Lambda(["session_token"], Let([{
+    "getSession": Get(Match(Index("session_by_session_token"), Var("session_token")))
+  }, {
+    "getBins": Get(Match(Index("bin_by_userId"), Select(["data", "userId"], Var("getSession"))))
+  }], Select("data", Map(Var("getBins"), Lambda(["bin"], {
+    "hashed_id": Select(["data", "hashed_id"], Var("bin")),
+    "lifetime": Select(["data", "lifetime"], Var("bin")),
+    "readOnce": Select(["data", "readOnce"], Var("bin")),
+    "isProtected": Select(["data", "isProtected"], Var("bin"))
+  }))))))
+})

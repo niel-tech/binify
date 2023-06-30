@@ -3,9 +3,11 @@
   "display": "Next.js",
   "compilerOptions": {
     "paths": {
-      "@/fonts": ["./styles/fonts"]
+      "@/config": ["./config"],
+      "@/fonts": ["./styles/fonts"],
+      "@/lib/auth": ["./lib/auth"]
     },
-    "target": "es5",
+    "target": "ES2021",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -27,5 +29,10 @@
     ]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.mjs", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "./node_modules",
+    "./node_modules/*",
+    "./node_modules/@types/node/index.d.ts",
+  ]
 }

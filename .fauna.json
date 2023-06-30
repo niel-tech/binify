@@ -1,4 +1,5 @@
 {
   "schemaPath": "fauna/schema.graphql",
-  "region": "eu"
+  "region": "eu",
+  "secretEnv": "FAUNA_ADMIN_KEY"
 }

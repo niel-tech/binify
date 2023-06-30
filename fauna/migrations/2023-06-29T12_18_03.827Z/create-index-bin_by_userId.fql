@@ -1,0 +1,8 @@
+CreateIndex({
+  "name": "bin_by_userId",
+  "source": Collection("Bin"),
+  "unique": false,
+  "terms": [{
+    "field": ["data", "userId"]
+  }]
+})

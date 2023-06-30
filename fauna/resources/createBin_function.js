@@ -11,27 +11,34 @@ const {
   TimeAdd,
   Collection,
   Now,
-  ToString,
   If,
   Or,
   Equals,
   Not,
   Let,
+  ToString,
+  Call,
 } = q
 
 const CreateFunctionCreateBin = CreateFunction({
   name: "createBin",
   body: Query(
     Lambda(
-      ["hashed_id", "text", "hashed_password", "readOnce", "offset", "unit"],
+      ["hashed_id", "text", "hashed_password", "readOnce", "offset", "unit", "title", "userId"],
       Let(
-        { calcLifeTime: TimeAdd(Now(), Var("offset"), Var("unit")) },
+        { calcLifeTime: If(Not(Equals(Var("unit"), "lifetime")), TimeAdd(Now(), Var("offset"), Var("unit")), null) },
         Create(Collection("Bin"), {
           ttl: Var("calcLifeTime"),
           data: {
+            title: Var("title"),
+            userId: Var("userId"),
             hashed_id: Var("hashed_id"),
             text: Var("text"),
-            lifetime: ToString(Var("calcLifeTime")),
+            lifetime: If(
+              Not(Equals(Var("unit"), "lifetime")),
+              ToString(TimeAdd(Now(), Var("offset"), Var("unit"))),
+              "forever"
+            ),
             readOnce: Var("readOnce"),
             hashed_password: If(
               Or(Equals(Var("hashed_password"), "null"), Equals(Var("hashed_password"), "undefined")),
@@ -39,6 +46,14 @@ const CreateFunctionCreateBin = CreateFunction({
               Var("hashed_password")
             ),
             isProtected: Not(Or(Equals(Var("hashed_password"), "null"), Equals(Var("hashed_password"), "undefined"))),
+            createdAt: ToString(Now()),
+            sortValues: {
+              v1: Call("randomizer", 1),
+              v2: Call("randomizer", 1),
+              v3: Call("randomizer", 1),
+              v4: Call("randomizer", 1),
+              v5: Call("randomizer", 1),
+            },
           },
         })
       )

@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from "class-variance-authority"
-import { twMerge } from "tailwind-merge"
-import { InputHTMLAttributes } from "react"
 import { ClassProp } from "class-variance-authority/dist/types"
+import { InputHTMLAttributes } from "react"
+import { twMerge } from "tailwind-merge"
 
 const checkbox = cva(
   [

@@ -1,0 +1,5 @@
+CreateCollection({
+  "name": "verification_tokens",
+  "history_days": 0,
+  "ttl_days": null
+})

@@ -1,5 +1,6 @@
+import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
-import { createNewBin } from "../../../../lib/fauna"
+import { createNewBin, validateSession } from "../../../../lib/fauna"
 
 export async function POST(request: Request, res: any) {
   const req = await request.json()
@@ -11,6 +12,7 @@ export async function POST(request: Request, res: any) {
     readOnce,
     offset,
     unit,
+    title,
   }: {
     hashed_id: string
     text: string
@@ -19,7 +21,17 @@ export async function POST(request: Request, res: any) {
     readOnce: boolean
     offset: number
     unit: any
+    title?: string
   } = req as any
+
+  let userId: string | undefined
+  const cookieStore = cookies()
+  const session_token = cookieStore.get("next-auth.session-token")?.value
+
+  if (session_token) {
+    const res = await validateSession(session_token ?? "")
+    userId = res.userId
+  }
 
   if (hashed_password && hashed_password !== hashed_password_repeat) {
     return NextResponse.json(
@@ -44,7 +56,7 @@ export async function POST(request: Request, res: any) {
   }
 
   try {
-    const bin = await createNewBin(hashed_id, text, hashed_password || null, readOnce, offset, unit)
+    const bin = await createNewBin(hashed_id, text, hashed_password || null, readOnce, offset, unit, title, userId)
 
     return NextResponse.json(bin)
   } catch (e: any) {

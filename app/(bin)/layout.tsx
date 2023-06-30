@@ -1,6 +1,6 @@
-import { ReactNode } from "react"
 import { Metadata } from "next"
-import Section from "./section"
+import { ReactNode } from "react"
+import Section from "../components/section"
 
 export const metadata: Metadata = {
   themeColor: "white",

@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from "class-variance-authority"
-import { twMerge } from "tailwind-merge"
-import { InputHTMLAttributes, ReactElement, SelectHTMLAttributes } from "react"
 import { ClassProp } from "class-variance-authority/dist/types"
+import { InputHTMLAttributes, ReactElement, SelectHTMLAttributes } from "react"
+import { twMerge } from "tailwind-merge"
 
 const select = cva(
   [
@@ -23,9 +23,12 @@ const select = cva(
   {
     variants: {
       size: {
-        sm: ["text-sm", "h-8"],
-        lg: ["text-lg", "h-10"],
+        sm: ["text-sm"],
+        lg: ["text-lg"],
       },
+    },
+    defaultVariants: {
+      size: "sm",
     },
   } as any
 )

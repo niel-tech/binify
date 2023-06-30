@@ -1,0 +1,73 @@
+import faunadb from "faunadb"
+
+const q = faunadb.query
+const {
+  CreateFunction,
+  Query,
+  Var,
+  Lambda,
+  If,
+  ContainsField,
+  Paginate,
+  Role,
+  Match,
+  Index,
+  Select,
+  Get,
+  Let,
+  Map,
+  LT,
+  Now,
+  ToTime,
+} = q
+
+const CreateFunctionGetBinsByUser = CreateFunction({
+  name: "getBinsByUser",
+  role: Role("user"),
+  body: Query(
+    Lambda(
+      ["session_token"],
+      Let(
+        {
+          getSession: Get(Match(Index("session_by_session_token"), Var("session_token"))),
+          getBins: Paginate(Match(Index("bin_by_userId"), Select(["data", "userId"], Var("getSession")))),
+        },
+        If(
+          LT(Now(), ToTime(Select(["data", "expires"], Var("getSession")))),
+          Select(
+            "data",
+            Map(
+              Var("getBins"),
+              Lambda(
+                ["ref"],
+                Let(
+                  {
+                    getBin: Get(Var("ref")),
+                  },
+                  {
+                    title: If(
+                      ContainsField("title", Select("data", Var("getBin"))),
+                      Select(["data", "title"], Var("getBin")),
+                      false
+                    ),
+                    hashed_id: Select(["data", "hashed_id"], Var("getBin")),
+                    lifetime: Select(["data", "lifetime"], Var("getBin")),
+                    readOnce: If(
+                      ContainsField("readOnce", Select("data", Var("getBin"))),
+                      Select(["data", "readOnce"], Var("getBin")),
+                      false
+                    ),
+                    isProtected: Select(["data", "isProtected"], Var("getBin")),
+                  }
+                )
+              )
+            )
+          ),
+          []
+        )
+      )
+    )
+  ),
+})
+
+export default CreateFunctionGetBinsByUser

@@ -1,33 +1,69 @@
-import { gql, GraphQLClient } from "graphql-request"
+import { Client as FaunaClient } from "faunadb"
+import { GraphQLClient } from "graphql-request"
 import { Bin } from "../models/bin.model"
+
+export const authClient = new FaunaClient({
+  secret: (process.env.NODE_ENV === "development"
+    ? process.env.DEV_FAUNA_ADMIN_KEY
+    : process.env.FAUNA_ADMIN_KEY) as string,
+  scheme: "https",
+  domain: process.env.FAUNADB_DOMAIN,
+  port: 443,
+})
 
 const userClient = new GraphQLClient("https://graphql.eu.fauna.com/graphql", {
   headers: {
-    authorization: `Bearer ${process.env.FAUNA_USER_KEY}`,
+    authorization: `Bearer ${
+      process.env.NODE_ENV === "development" ? process.env.DEV_FAUNA_USER_KEY : process.env.FAUNA_USER_KEY
+    }`,
   },
+  fetch: fetch,
 })
 
-const localhostClient = new GraphQLClient("http://127.0.0.1:8443", {
-  headers: {
-    authorization: `Bearer ${process.env.FAUNA_USER_KEY_LOCALHOST}`,
-  },
-})
+export const getBinsByUser = (sessionToken: string): Promise<Bin[]> => {
+  const query = `query getBinsByUser {
+    getBinsByUser(
+      session_token: "${sessionToken}"
+    ) {
+      title
+      hashed_id
+      lifetime
+      readOnce
+      isProtected
+      createdAt
+    }
+  }`
+
+  return userClient.request(query).then(({ getBinsByUser }: any) => getBinsByUser)
+}
+
+export const validateSession = (sessionToken: string): Promise<{ userId: string }> => {
+  const query = `query validateSession {
+    validateSession(
+      session_token: "${sessionToken}"
+    ) {
+      userId
+    }
+  }`
+
+  return userClient.request(query).then(({ validateSession }: any) => validateSession)
+}
 
 export const getBin = (hashed_id: string): Promise<Bin> => {
   const query = `query getBin {
     getBin(
       hashed_id: "${hashed_id}"
     ) {
+      title
       hashed_id
       lifetime
       readOnce
       isProtected
+      createdAt
     }
   }`
 
-  return (process.env.NODE_ENV === "development" ? localhostClient : userClient)
-    .request(query)
-    .then(({ getBin }: any) => getBin)
+  return userClient.request(query).then(({ getBin }: any) => getBin)
 }
 
 export const readBin = (hashed_id: string, hashed_pw?: string): Promise<Bin> => {
@@ -36,17 +72,17 @@ export const readBin = (hashed_id: string, hashed_pw?: string): Promise<Bin> => 
       hashed_id: "${hashed_id}"
       hashed_pw: "${hashed_pw}"
     ) {
+      title
       hashed_id
       text
       lifetime
       readOnce
       isProtected
+      createdAt
     }
   }`
 
-  return (process.env.NODE_ENV === "development" ? localhostClient : userClient)
-    .request(query)
-    .then(({ readBin }: any) => readBin)
+  return userClient.request(query).then(({ readBin }: any) => readBin)
 }
 
 export const createNewBin = (
@@ -72,6 +108,9 @@ export const createNewBin = (
     | "microseconds"
     | "nanosecond"
     | "nanoseconds"
+    | "lifetime",
+  title?: string,
+  userId?: string
 ): Promise<Bin> => {
   const query = `
     mutation createNewBin {
@@ -82,17 +121,20 @@ export const createNewBin = (
         readOnce: ${readOnce}
         offset: ${offset}
         unit: "${unit}"
+        title: ${title ? `"${title}"` : null}
+        userId: ${userId ? `"${userId}"` : null}
       ) {
+        userId
         hashed_id
+        title
         text
         lifetime
         readOnce
         isProtected
+        createdAt
       }
     }
   `
 
-  return (process.env.NODE_ENV === "development" ? localhostClient : userClient)
-    .request(query)
-    .then(({ createNewBin }: any) => createNewBin)
+  return userClient.request(query).then(({ createNewBin }: any) => createNewBin)
 }

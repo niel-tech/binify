@@ -2,10 +2,12 @@ type Query {
   bin: Bin
   getBin(hashed_id: String!): NullableBin! @resolver(name: "getBin")
   readBin(hashed_id: String!, hashed_pw: String!): NullableBin! @resolver(name: "readBin")
+  validateSession(session_token: String!): SessionToken! @resolver(name: "validateSession")
+  getBinsByUser(session_token: String!): [NullableBin!]! @resolver(name: "getBinsByUser")
 }
 
 type Mutation {
-  createNewBin(hashed_id: String!, text: String!, hashed_password: String, readOnce: Boolean!, offset: Int!, unit: String!): Bin!
+  createNewBin(hashed_id: String!, text: String!, hashed_password: String, readOnce: Boolean!, offset: Int!, unit: String!, title: String, userId: String): Bin!
     @resolver(name: "createBin")
 }
 
@@ -16,6 +18,11 @@ type Bin {
   readOnce: Boolean!
   hashed_password: String
   isProtected: Boolean
+  createdAt: String!
+  title: String
+  isPrivate: Boolean
+  userId: String
+  readCount: Int
 }
 
 type NullableBin @embedded {
@@ -24,4 +31,13 @@ type NullableBin @embedded {
   lifetime: String
   readOnce: Boolean
   isProtected: Boolean
+  createdAt: String
+  title: String
+  isPrivate: Boolean
+  userId: String
+  readCount: Int
+}
+
+type SessionToken @embedded {
+  userId: String
 }
