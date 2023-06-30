@@ -3,10 +3,11 @@ import Link from "next/link"
 import { ValidUntil } from "../../../components/ValidUntil/ValidUntil"
 import { getBinsByUser } from "../../../lib/fauna"
 import { Bin } from "../../../models/bin.model"
+import { getNextAuthSessionCookie } from "../../../lib/cookie"
 
 export default async function Profile() {
   const cookieStore = cookies()
-  const session_token = cookieStore.get("next-auth.session-token")?.value
+  const session_token = getNextAuthSessionCookie(cookieStore)
   let bins: Bin[] = []
 
   if (session_token) {

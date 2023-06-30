@@ -1,6 +1,8 @@
 import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
 import { createNewBin, validateSession } from "../../../../lib/fauna"
+import { getNextAuthSessionCookie } from "../../../../lib/cookie"
+import { RequestCookies } from "next/dist/compiled/@edge-runtime/cookies"
 
 export async function POST(request: Request, res: any) {
   const req = await request.json()
@@ -26,7 +28,7 @@ export async function POST(request: Request, res: any) {
 
   let userId: string | undefined
   const cookieStore = cookies()
-  const session_token = cookieStore.get("next-auth.session-token")?.value
+  const session_token = getNextAuthSessionCookie(cookieStore)
 
   if (session_token) {
     const res = await validateSession(session_token ?? "")
