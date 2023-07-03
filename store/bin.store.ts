@@ -5,7 +5,8 @@ type BinStore = {
   bin: Bin | undefined
 
   actions: {
-    addBin: (bin: Bin | undefined) => void
+    addBin: (bin: Bin | undefined) => void,
+    removeBin: (bin: Bin | undefined) => void
   }
 }
 
@@ -14,6 +15,7 @@ const useBinStore = create<BinStore>((set) => ({
 
   actions: {
     addBin: (bin) => set(() => ({ bin })),
+    removeBin: () => set(() => ({ bin: undefined }))
   },
 }))
 

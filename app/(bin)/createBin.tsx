@@ -1,6 +1,6 @@
 "use client"
 
-import { FormEvent } from "react"
+import {FormEvent, useEffect} from "react"
 import { Button } from "../../components/Button/Button"
 import { Checkbox } from "../../components/Checkbox/Checkbox"
 import { Input } from "../../components/Input/Input"
@@ -20,11 +20,15 @@ type CreateBinProps = {
 
 export default function CreateBin({ isLoggedIn }: CreateBinProps) {
   const cachedBin = useBin()
-  const { addBin } = useBinActions()
+  const { addBin, removeBin } = useBinActions()
 
   const handleOnClick = () => {
     addBin(undefined)
   }
+
+  useEffect(() => {
+    return () => removeBin(undefined)
+  }, [])
 
   const handleOnSubmit = async (e: FormEvent) => {
     e.preventDefault()
