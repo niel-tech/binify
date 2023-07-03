@@ -26,7 +26,7 @@ export default async function Profile() {
             >
               <div className="mt-2 flex w-full items-center gap-1">
                 <div>
-                  <Link className="font-bold text-blue-700" href={`/${bin.hashed_id}`}>
+                  <Link className="font-bold text-blue-700" href={`/b/${bin.hashed_id}`}>
                     {bin.title} [{bin.hashed_id}]
                   </Link>
                 </div>

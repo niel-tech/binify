@@ -101,7 +101,7 @@ export default function CreateBin({ isLoggedIn }: CreateBinProps) {
 
   return (
     <>
-      <InputCopy value={`${window!.location.origin}/${cachedBin.hashed_id}`} readonly={true} />
+      <InputCopy value={`${window!.location.origin}/b/${cachedBin.hashed_id}`} readonly={true} />
       {cachedBin.readOnce && (
         <p className="text-left font-bold">
           Attention: <span className="text-amber-700">this bin will self destory after reading once!</span>

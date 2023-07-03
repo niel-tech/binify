@@ -1,14 +1,14 @@
 "use client"
 
-import { FormEvent } from "react"
-import { Button } from "../../../components/Button/Button"
-import { Input } from "../../../components/Input/Input"
-import InputLabel from "../../../components/InputLabel/InputLabel"
-import Textarea from "../../../components/Textarea/Textarea"
-import { ValidUntil } from "../../../components/ValidUntil/ValidUntil"
-import { decryptText, generateHashedString } from "../../../lib/crypto"
-import { Bin } from "../../../models/bin.model"
-import { useBin, useBinActions } from "../../../store/bin.store"
+import {FormEvent, useEffect} from "react"
+import { Button } from "../../../../components/Button/Button"
+import { Input } from "../../../../components/Input/Input"
+import InputLabel from "../../../../components/InputLabel/InputLabel"
+import Textarea from "../../../../components/Textarea/Textarea"
+import { ValidUntil } from "../../../../components/ValidUntil/ValidUntil"
+import { decryptText, generateHashedString } from "../../../../lib/crypto"
+import { Bin } from "../../../../models/bin.model"
+import { useBin, useBinActions } from "../../../../store/bin.store"
 
 type ReadBinProps = {
   bin: Bin
@@ -16,7 +16,7 @@ type ReadBinProps = {
 
 export default function ReadBin({ bin }: ReadBinProps) {
   const cachedBin = useBin()
-  const { addBin } = useBinActions()
+  const { addBin, removeBin } = useBinActions()
 
   const handleOnSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -31,6 +31,10 @@ export default function ReadBin({ bin }: ReadBinProps) {
 
     addBin(data)
   }
+
+  useEffect(() => {
+    return () => removeBin(undefined)
+  }, [])
 
   if (!cachedBin?.hashed_id && bin.isProtected)
     return (
