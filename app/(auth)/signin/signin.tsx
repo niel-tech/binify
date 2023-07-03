@@ -14,7 +14,7 @@ export default async function Signin({ csrfToken }: { csrfToken: string | undefi
 
     if (!email.value) return
 
-    signIn("email", { email: email.value, csrfToken })
+    signIn("email", { email: email.value, csrfToken, callbackUrl: "/profile" })
   }
 
   return (
