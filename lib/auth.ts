@@ -20,8 +20,8 @@ export const authOptions: NextAuthOptions = {
   providers: [
     Github({
       name: "github",
-      clientId: process.env.GITHUB_ID as string,
-      clientSecret: process.env.GITHUB_SECRET as string,
+      clientId: (process.env.NODE_ENV === "development" ? process.env.DEV_GITHUB_ID : process.env.GITHUB_ID) as string,
+      clientSecret: (process.env.NODE_ENV === "development" ? process.env.DEV_GITHUB_SECRET : process.env.GITHUB_SECRET) as string,
     }),
     Email({
       sendVerificationRequest,
