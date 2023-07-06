@@ -8,7 +8,7 @@ export const env = createEnv({
       .optional()
       .transform((value) => value === "true"),
     NEXT_PUBLIC_SECURE_KEY: z.string(),
-    FAUNA_USER_KEY: z.string()
+    NEXT_PUBLIC_FAUNA_USER_KEY: z.string()
   },
   client: {
     NEXT_PUBLIC_SECURE_KEY: z.string(),
@@ -16,6 +16,6 @@ export const env = createEnv({
   runtimeEnv: {
     ANALYZE: process.env.ANALYZE,
     NEXT_PUBLIC_SECURE_KEY: process.env.NEXT_PUBLIC_SECURE_KEY,
-    FAUNA_USER_KEY: process.env.FAUNA_USER_KEY
+    NEXT_PUBLIC_FAUNA_USER_KEY: process.env.NEXT_PUBLIC_FAUNA_USER_KEY
   },
 })

@@ -77,7 +77,7 @@ export default function Nav({ session }: { session: Session | null }) {
                   {session?.user && (
                     <p className="-mx-2 block bg-gray-200 px-2 font-bold">{session.user.email || session.user.name}</p>
                   )}
-                  <div className="divide-y-2 divide-gray-400 -mx-2 border-y border-gray-200">
+                  <div className="-mx-2 divide-y-2 divide-gray-400 border-y border-gray-200">
                     <Link
                       href="/profile"
                       className="block p-2 text-sm text-gray-700 hover:bg-gray-100 hover:font-bold"
@@ -87,7 +87,7 @@ export default function Nav({ session }: { session: Session | null }) {
                       Profile
                     </Link>
                   </div>
-                  <SignOut className="hover:enabled:font-bold my-2" role="menuitem" id="user-menu-item-2">
+                  <SignOut className="my-2 hover:enabled:font-bold" role="menuitem" id="user-menu-item-2">
                     Sign out
                   </SignOut>
                 </div>

@@ -1,6 +1,6 @@
 "use client"
 
-import {FormEvent, useEffect} from "react"
+import { FormEvent, useEffect } from "react"
 import { Button } from "../../../../components/Button/Button"
 import { Input } from "../../../../components/Input/Input"
 import InputLabel from "../../../../components/InputLabel/InputLabel"

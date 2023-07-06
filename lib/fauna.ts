@@ -1,5 +1,5 @@
 import { Client as FaunaClient } from "faunadb"
-import { GraphQLClient } from "graphql-request"
+import { gql, GraphQLClient } from "graphql-request"
 import { Bin } from "../models/bin.model"
 
 export const authClient = new FaunaClient({
@@ -11,17 +11,18 @@ export const authClient = new FaunaClient({
   port: 443,
 })
 
-const userClient = new GraphQLClient("https://graphql.eu.fauna.com/graphql", {
+export const userClient = new GraphQLClient("https://graphql.eu.fauna.com/graphql", {
   headers: {
     authorization: `Bearer ${
-      process.env.NODE_ENV === "development" ? process.env.DEV_FAUNA_USER_KEY : process.env.FAUNA_USER_KEY
+      process.env.NODE_ENV === "development"
+        ? process.env.NEXT_PUBLIC_DEV_FAUNA_USER_KEY
+        : process.env.NEXT_PUBLIC_FAUNA_USER_KEY
     }`,
   },
   fetch: fetch,
 })
 
-export const getBinsByUser = (sessionToken: string): Promise<Bin[]> => {
-  const query = `query getBinsByUser {
+export const GET_BINS_BY_USER = (sessionToken?: string) => gql`query getBinsByUser {
     getBinsByUser(
       session_token: "${sessionToken}"
     ) {
@@ -34,7 +35,8 @@ export const getBinsByUser = (sessionToken: string): Promise<Bin[]> => {
     }
   }`
 
-  return userClient.request(query).then(({ getBinsByUser }: any) => getBinsByUser)
+export const getBinsByUser = (sessionToken: string): Promise<Bin[]> => {
+  return userClient.request(GET_BINS_BY_USER(sessionToken)).then(({ getBinsByUser }: any) => getBinsByUser)
 }
 
 export const validateSession = (sessionToken: string): Promise<{ userId: string }> => {

@@ -1,8 +1,8 @@
+import { RequestCookies } from "next/dist/compiled/@edge-runtime/cookies"
 import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
-import { createNewBin, validateSession } from "../../../../lib/fauna"
 import { getNextAuthSessionCookie } from "../../../../lib/cookie"
-import { RequestCookies } from "next/dist/compiled/@edge-runtime/cookies"
+import { createNewBin, validateSession } from "../../../../lib/fauna"
 
 export async function POST(request: Request, res: any) {
   const req = await request.json()

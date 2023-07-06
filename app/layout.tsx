@@ -3,11 +3,11 @@ import { getServerSession } from "next-auth/next"
 import { ReactNode } from "react"
 import { quicksand } from "@/fonts"
 import { authOptions } from "@/lib/auth"
+import Footer from "./footer"
+import Nav from "./nav"
 
 // These styles apply to every route in the application
 import "styles/tailwind.css"
-import Footer from "./footer"
-import Nav from "./nav"
 
 export const metadata: Metadata = {
   themeColor: "white",

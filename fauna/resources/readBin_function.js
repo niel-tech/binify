@@ -47,7 +47,14 @@ const CreateFunctionReadBin = CreateFunction({
             canAccess: Or(
               Not(ContainsField("hashed_password", Select("data", Var("getBin")))),
               If(
-                And(Not(IsNull(Var("getBin"))), If(Not(Equals(Select(["data", "lifetime"], Var("getBin")), "forever")), LT(Now(), ToTime(Select(["data", "lifetime"], Var("getBin")))),true)),
+                And(
+                  Not(IsNull(Var("getBin"))),
+                  If(
+                    Not(Equals(Select(["data", "lifetime"], Var("getBin")), "forever")),
+                    LT(Now(), ToTime(Select(["data", "lifetime"], Var("getBin")))),
+                    true
+                  )
+                ),
                 Equals(Select(["data", "hashed_password"], Var("getBin")), Var("hashed_pw")),
                 false
               )

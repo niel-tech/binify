@@ -1,6 +1,6 @@
 "use client"
 
-import {FormEvent, useEffect} from "react"
+import { FormEvent, useEffect } from "react"
 import { Button } from "../../components/Button/Button"
 import { Checkbox } from "../../components/Checkbox/Checkbox"
 import { Input } from "../../components/Input/Input"
@@ -61,10 +61,10 @@ export default function CreateBin({ isLoggedIn }: CreateBinProps) {
   if (!cachedBin)
     return (
       <form onSubmit={handleOnSubmit}>
-        <InputLabel label="Title" className="my-3">
+        <InputLabel label="Title" className="my-4">
           <Input name="title" type="text" className="block w-full" placeholder="Title" autoFocus={true} />
         </InputLabel>
-        <InputLabel label="Secret Text" className="my-3">
+        <InputLabel label="Secret Text" className="my-4">
           <Textarea name="text" rows={6} className="block w-full" placeholder="Secret Text"></Textarea>
         </InputLabel>
         <InputLabel label="Password" className="my-4">
@@ -73,8 +73,8 @@ export default function CreateBin({ isLoggedIn }: CreateBinProps) {
         <InputLabel label="Repeat Password" className="my-4">
           <Input name="passwordConfirm" type="password" className="block w-full" placeholder="Repeat Password" />
         </InputLabel>
-        <InputLabel label="Lifetime" className="m-auto my-3 w-fit">
-          <Select name="lifetime" defaultValue="5 minutes">
+        <InputLabel label="Lifetime" className="m-auto my-4 w-fit text-sm">
+          <Select name="lifetime" defaultValue={JSON.stringify({ offset: 1, unit: "hour" })}>
             <>
               <option value={JSON.stringify({ offset: 1, unit: "minute" })}>1 minute</option>
               <option value={JSON.stringify({ offset: 5, unit: "minutes" })}>5 minutes</option>
@@ -87,7 +87,11 @@ export default function CreateBin({ isLoggedIn }: CreateBinProps) {
               <option value={JSON.stringify({ offset: 7, unit: "days" })}>1 week</option>
               <option value={JSON.stringify({ offset: 30, unit: "days" })}>1 month</option>
               <option value={JSON.stringify({ offset: 365, unit: "days" })}>1 year</option>
-              {isLoggedIn && <option value={JSON.stringify({ offset: 0, unit: "lifetime" })}>lifetime</option>}
+              {isLoggedIn && (
+                <option className="bg-gray-200 font-bold" value={JSON.stringify({ offset: 0, unit: "lifetime" })}>
+                  lifetime
+                </option>
+              )}
             </>
           </Select>
         </InputLabel>
