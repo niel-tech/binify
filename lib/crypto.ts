@@ -8,8 +8,11 @@ export function generateMd5Hash(string: string) {
   return CryptoJS.MD5(string.trim().toLowerCase())
 }
 
-export function generateHashedString(string: string, secret?: string): string {
-  const hmac = CryptoJS.SHA256(secret ? string + secret : string)
+export function generateHashedString(
+  string: string,
+  key: string = process.env.NEXT_PUBLIC_SECURE_KEY as string
+): string {
+  const hmac = CryptoJS.SHA256(string + key)
   return hmac.toString(CryptoJS.enc.Hex)
 }
 
