@@ -1,0 +1,7 @@
+CreateFunction({
+  "name": "createUniqueId",
+  "role": Role("user"),
+  "body": Query(Lambda(["_"], Let([{
+    "getRandString": Call("randomString", 5)
+  }], If(Exists(Match(Index("bin_by_hashed_id"), Var("getRandString"))), Call("createUniqueId", null), Var("getRandString")))))
+})

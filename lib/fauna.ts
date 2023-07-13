@@ -22,7 +22,8 @@ export const userClient = new GraphQLClient("https://graphql.eu.fauna.com/graphq
   fetch: fetch,
 })
 
-export const GET_BINS_BY_USER = (sessionToken?: string) => gql`query getBinsByUser {
+export const GET_BINS_BY_USER = (sessionToken?: string) => gql`
+  query getBinsByUser {
     getBinsByUser(
       session_token: "${sessionToken}"
     ) {
@@ -88,7 +89,6 @@ export const readBin = (hashed_id: string, hashed_pw?: string): Promise<Bin> => 
 }
 
 export const createNewBin = (
-  hashed_id: string,
   text: string,
   hashed_password: string | null,
   readOnce: boolean,
@@ -117,7 +117,6 @@ export const createNewBin = (
   const query = `
     mutation createNewBin {
       createNewBin(
-        hashed_id: "${hashed_id}"
         text: "${text}"
         hashed_password: "${hashed_password}"
         readOnce: ${readOnce}

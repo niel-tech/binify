@@ -24,15 +24,15 @@ const CreateFunctionCreateBin = CreateFunction({
   name: "createBin",
   body: Query(
     Lambda(
-      ["hashed_id", "text", "hashed_password", "readOnce", "offset", "unit", "title", "userId"],
+      ["text", "hashed_password", "readOnce", "offset", "unit", "title", "userId"],
       Let(
         { calcLifeTime: If(Not(Equals(Var("unit"), "lifetime")), TimeAdd(Now(), Var("offset"), Var("unit")), null) },
         Create(Collection("Bin"), {
           ttl: Var("calcLifeTime"),
           data: {
+            hashed_id: Call("createUniqueId", null),
             title: Var("title"),
             userId: Var("userId"),
-            hashed_id: Var("hashed_id"),
             text: Var("text"),
             lifetime: If(
               Not(Equals(Var("unit"), "lifetime")),

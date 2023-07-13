@@ -7,7 +7,7 @@ type Query {
 }
 
 type Mutation {
-  createNewBin(hashed_id: String!, text: String!, hashed_password: String, readOnce: Boolean!, offset: Int!, unit: String!, title: String, userId: String): Bin!
+  createNewBin(text: String!, hashed_password: String, readOnce: Boolean!, offset: Int!, unit: String!, title: String, userId: String): Bin!
     @resolver(name: "createBin")
 }
 

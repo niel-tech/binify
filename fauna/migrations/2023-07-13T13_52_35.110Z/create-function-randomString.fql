@@ -1,0 +1,13 @@
+CreateFunction({
+  "name": "randomString",
+  "role": Role("user"),
+  "body": Query(Lambda(["length"], Let([{
+    "alphabet": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+  }, {
+    "alphabetLength": Length(Var("alphabet"))
+  }], Concat(Map(FindStrRegex(Space(Var("length")), "\\s"), Lambda("_", Let([{
+    "randomInt": Modulo(Divide(Multiply(Divide(ToNumber(NewId()), 123), Divide(ToNumber(NewId()), 456)), Divide(ToNumber(NewId()), 789)))
+  }, {
+    "pos": Modulo(Var("randomInt"), Var("alphabetLength"))
+  }], SubString(Var("alphabet"), Var("pos"), 1))))))))
+})

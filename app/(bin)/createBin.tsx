@@ -42,7 +42,6 @@ export default function CreateBin({ isLoggedIn }: CreateBinProps) {
     const response = await fetch(`/api/bin/create`, {
       method: "POST",
       body: JSON.stringify({
-        hashed_id: generateHashedString(Date.now().toString()).substr(0, 5),
         text: encryptText(text.value),
         hashed_password: !password.value ? null : generateHashedString(password.value),
         hashed_password_repeat: !passwordConfirm.value ? null : generateHashedString(passwordConfirm.value),

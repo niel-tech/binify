@@ -1,12 +1,13 @@
 POST http://localhost:3000/api/bin/create
 
 {
-  "hashed_id": "asd45",
+  "title": "Test Title",
   "text": "Das ist ein Test",
   "offset": 1,
   "unit": "minutes",
   "hashed_password": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
-  "hashed_password_repeat": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08"
+  "hashed_password_repeat": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+  "readOnce": false
 }
 
 ### Without Password
@@ -14,8 +15,9 @@ POST http://localhost:3000/api/bin/create
 POST http://localhost:3000/api/bin/create
 
 {
-  "hashed_id": "asd45",
+  "title": "Test Title 2",
   "text": "Das ist ein Test",
   "offset": 1,
-  "unit": "minutes"
+  "unit": "minutes",
+  "readOnce": false
 }

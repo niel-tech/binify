@@ -1,4 +1,3 @@
-import { RequestCookies } from "next/dist/compiled/@edge-runtime/cookies"
 import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
 import { getNextAuthSessionCookie } from "../../../../lib/cookie"
@@ -7,7 +6,6 @@ import { createNewBin, validateSession } from "../../../../lib/fauna"
 export async function POST(request: Request, res: any) {
   const req = await request.json()
   const {
-    hashed_id,
     text,
     hashed_password,
     hashed_password_repeat,
@@ -16,7 +14,6 @@ export async function POST(request: Request, res: any) {
     unit,
     title,
   }: {
-    hashed_id: string
     text: string
     hashed_password?: string
     hashed_password_repeat?: string
@@ -46,19 +43,8 @@ export async function POST(request: Request, res: any) {
     )
   }
 
-  if (!hashed_id) {
-    return NextResponse.json(
-      {
-        errors: ["Can not be null hashed_id"],
-      },
-      {
-        status: 400,
-      }
-    )
-  }
-
   try {
-    const bin = await createNewBin(hashed_id, text, hashed_password || null, readOnce, offset, unit, title, userId)
+    const bin = await createNewBin(text, hashed_password || null, readOnce, offset, unit, title, userId)
 
     return NextResponse.json(bin)
   } catch (e: any) {

@@ -52,6 +52,18 @@ const CreateRoleUser = CreateRole({
       },
     },
     {
+      resource: Function("createUniqueId"),
+      actions: {
+        call: true,
+      },
+    },
+    {
+      resource: Function("randomString"),
+      actions: {
+        call: true,
+      },
+    },
+    {
       resource: Function("randomizer"),
       actions: {
         call: true,
